@@ -1,0 +1,24 @@
+#template_multiline_svg {
+    width: 100%;
+    height: 620px;
+    background-color: white;
+}
+
+#subgraph_multiline_svg {
+    width: 100%;
+    height: 620px;
+    background-color: white;
+}
+
+
+.multilineActivitiesSubgraphSelect {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#multiline_color_legend{
+    /* width: 100%; */
+    height: 60px;
+    display: block;
+    margin: 0 auto;
+}

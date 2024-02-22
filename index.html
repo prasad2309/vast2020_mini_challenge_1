@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <title>VAST MC 1 - 2020</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/title.ico">
+
+    <!-- 3rd party js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="text/javascript" src="virtual-select.min.js"></script>
+
+    <!-- 3rd party style -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gabarito&family=Lato&family=Montserrat:wght@700&family=Open+Sans:wght@700&family=Roboto:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="virtual-select.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>        
+
+    <!-- custom js -->
+    <script src="index.js"></script>
+    <script src="components/scatter-activities-plot/scatter-activities-plot.js"></script>
+    <script src="components/scatter-travel-history/scatter-travel-history.js"></script>
+    <script src="components/bar-graph/bar-graph.js"></script>
+    <script src="components/node-link/node-link.js"></script>
+    <script src="components/seed-graph/seed-graph.js"></script>
+    <script src="components/heat-map/heat-map.js"></script>
+    <script src="components/arc-diagram/arc-diagram.js"></script>
+    <script src="components/node-link/node-link.js"></script>
+    <script src="components/lollipop/lollipopChart.js"></script>
+    <script src="components/multiline/multiline-plot.js"></script>
+
+    <!-- custom style -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="components/bar-graph/bar-graph.css" />
+    <link rel="stylesheet" href="components/node-link/node-link.css" />
+    <link rel="stylesheet" href="components/seed-graph/seed-graph.css" />
+    <link rel="stylesheet" href="components/scatter-activities-plot/scatter-activities-plot.css" />
+    <link rel="stylesheet" href="components/heat-map/heat-map.css" />
+    <link rel="stylesheet" href="components/lollipop/lollipopChart.css" />
+    <link rel="stylesheet" href="components/arc-diagram/arc-diagram.css" />
+    <link rel="stylesheet" href="components/node-link/node-link.css" />
+
+    <link rel="stylesheet" href="components/scatter-travel-history/scatter-travel-history.css" />
+    <link rel="stylesheet" href="components/multiline/multline-plot.css" />
+</head>
+
+<body style="font-family: Gabarito; background-color: #fbfbfd;">
+    <div>
+        <div class="container">
+            <div class="shadow p-3 mb-5 rounded" style="padding: 20px 0; margin-top: 20px; background-color: #265073;">
+                <a style="color: #EEF5FF;"
+                    href="https://github.com/asu-cse578-f2023/Darshan-Deep-Jayati-Prasad-Kaushal-Sravya">
+                    <h1 class="text-center">VAST 2020 : Mini-Challenge 1</h1>
+                </a>
+                <h3 style="font-family: Open Sans; color: #EEF5FF;" class="text-center">Darshan, Deep, Jayati, Prasad, Kaushal, Sravya
+                </h3>
+            </div>
+        </div>
+
+        <div class="container sticky-top">
+            <div class="shadow row p-3 mb-5 rounded"
+                style="padding: 20px 0; margin-top: 20px; background-color: #E1F4F3;">
+                <div class="col-lg-6 barSubgraphSelect">
+                    <select class="btn btn-primary w-100 h-100" id="subgraphSelect" onchange='onSelectedSubgraphChange(this)'
+                        style="width: 100%;">
+                        <option value="subGraph1Data" selected>Subgraph 1</option>
+                        <option value="subGraph2Data">Subgraph 2</option>
+                        <option value="subGraph3Data">Subgraph 3</option>
+                        <option value="subGraph4Data">Subgraph 4</option>
+                        <option value="subGraph5Data">Subgraph 5</option>
+                    </select>
+                </div>
+                <div class="col-lg-6 barSubgraphSelect">
+                    <select id="selectEdgeType" multiple name="native-select" placeholder="Select edges"
+                        data-search="false" data-silent-initial-value-set="true" style="max-width: 100%;">
+                        <option value=0>Edge 0: Email</option>
+                        <option value=1>Edge 1: Phone</option>
+                        <option value=2>Edge 2: Sell</option>
+                        <option value=3>Edge 3: Buy</option>
+                        <option value=4>Edge 4: Author</option>
+                        <option value=5>Edge 5: Financial</option>
+                        <option value=6>Edge 6: Travel</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-6 barSubgraphSelect">
+                    <select class="btn btn-info w-100 h-100" id="seedSelect" onchange='arcDiagramMain();' style="width: 100%;">
+                        <option value="623295-seed1Data" selected>Seed Graph 1</option>
+                        <option value="599956-seed2Data">Seed Graph 2</option>
+                        <option value="574136-seed3Data">Seed Graph 3</option>
+                    </select>
+                </div>
+                <div class="col-lg-6 barSubgraphSelect">
+                    <select class="btn btn-info w-100 h-100" id="similarSeedSelect" onchange='similarNodesDropdown(this)'
+                        style="width: 100%;">
+                        <option value="Similar Seed Nodes 1" selected>Similar Seed Graph 1</option>
+                        <option value="Similar Seed Nodes 2">Similar Seed Graph 2</option>
+                        <option value="Similar Seed Nodes 3">Similar Seed Graph 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Node Link -->
+        <div class="container justify-content-center text-center" style="margin-top: 60px; margin-bottom: 40px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">NODE LINK DIAGRAM</h2>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <svg id="color_legend"></svg>
+            </div>
+        </div>
+        <div class="container nodeLinkContainer">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <div class="similarity-percentage"></div>
+                        <svg id="template_node_link_svg"></svg>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <div class="similarity-percentage">
+                            <div>overall: 80.41%</div>
+                            <div id="Subgraph1-current-similarity-percentage"></div>
+                        </div>
+
+                        <svg id="subgraph1_node_link_svg"></svg>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <div class="similarity-percentage">
+                            <div>overall: 77.62%</div>
+                            <div id="Subgraph2-current-similarity-percentage"></div>
+                        </div>
+
+                        <svg id="subgraph2_node_link_svg"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <div class="similarity-percentage">
+                            <div>overall: 80.32%</div>
+                            <div id="Subgraph3-current-similarity-percentage"></div>
+                        </div>
+                        <svg id="subgraph3_node_link_svg"></svg>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <div class="similarity-percentage">
+                            <div>overall: 76.83%</div>
+                            <div id="Subgraph4-current-similarity-percentage"></div>
+                        </div>
+                        <svg id="subgraph4_node_link_svg"></svg>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <div class="similarity-percentage">
+                            <div>overall: 69.83%</div>
+                            <div id="Subgraph5-current-similarity-percentage"></div>
+                        </div>
+                        <svg id="subgraph5_node_link_svg"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 60px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">EDGE COUNT</h2>
+        </div>
+        <div class="container barContainer">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="template_bar_svg"></svg>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="subgraph_bar_svg"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiline -->
+        <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 40px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">EDGE ACTIVITY</h2>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <svg id="multiline_color_legend"></svg>
+            </div>
+        </div>
+        <div class="container multilineContainer">
+            <div class="row">
+                <div class="col-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+
+                        <div class="row align-items-start">
+
+                            <div><svg id="template_multiline_svg"></svg></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                
+                        <div class="row align-items-start">
+                
+                            <div><svg id="subgraph_multiline_svg"></svg></div>
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scatter plot -->
+        <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 40px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">TEMPORAL ACTIVITY</h2>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <svg id="scatter_color_legend"></svg>
+            </div>
+        </div>
+        <div class="container scatterActivitiesContainer">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="template_scatter_svg"></svg>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="subgraph_scatter_svg"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Seed graph Arc Diagram -->
+        <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 40px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">NODE INTERACTIONS</h2>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <svg id="arc_color_legend"></svg>
+            </div>
+        </div>
+        <div class="container arcContainer">
+            <div class="row">
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                    <svg id="template_arc_diagram_svg"></svg>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="shadow p-3 mb-5 bg-white rounded">
+                    <div id="seed-similarity">56</div>
+                    <svg id="seed_arc_diagram_svg"></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scatter plot Travel History-->
+        <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 60px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">TRAVEL ACTIVITY</h2>
+        </div>
+        <div class="container scatterTravelHistoryContainer">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="template_scatter_travel_svg"></svg>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="subgraph_scatter_travel_svg"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heat Map -->
+        <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 60px;">
+            <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">SPENDING ANALYSIS</h2>
+        </div>
+        <div class="container heatMapContainer">
+            <div class="col-lg-6 barSubgraphSelect">
+                <select id="selectSpendingType" multiple name="native-select" placeholder="Select Spending Category"
+                    data-search="false" data-silent-initial-value-set="true" style="max-width: 100%;">
+                    <option value="Property taxes">Property taxes</option>
+                    <option value="Household operations">Household operations</option>
+                    <option value="Tobacco">Tobacco</option>
+                    <option value="Personal care products and services">Personal care products and services</option>
+                    <option value="Rented dwellings">Rented dwellings</option>
+                    <option value="Mortgage payments">Mortgage payments</option>
+                    <option value="Personal taxes">Personal taxes</option>
+                    <option value="Apparel and services">Apparel and services</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Donations">Donations</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Lodging away from home">Lodging away from home</option>
+                    <option value="Telephone services">Telephone services</option>
+                    <option value="Education">Education</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Reading">Reading</option>
+                    <option value="Personal insurance and pensions">Personal insurance and pensions</option>
+                    <option value="Money income before taxes">Money income before taxes</option>
+                    <option value="Housekeeping supplies">Housekeeping supplies</option>
+                    <option value="Home maintenance">Home maintenance</option>
+                    <option value="Alcohol">Alcohol</option>
+                    <option value="Restaurants">Restaurants</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Gifts">Gifts</option>
+                    <option value="Miscellaneous">Miscellaneous</option>
+                    <option value="Natural gas">Natural gas</option>
+                    <option value="Household furnishings">Household furnishings</option>
+                    <option value="Electricity">Electricity</option>
+                    <option value="Water and other public services">Water and other public services</option>
+
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="template_heat_map_svg"></svg>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shadow p-3 mb-5 bg-white rounded">
+                        <svg id="subgraph_heat_map_svg"></svg>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Lollipop Chart -->
+        <div id="LollipopChart">
+            <div class="container justify-content-center text-center" style="margin-top: 40px; margin-bottom: 40px;">
+                <h2 style="font-family: Montserrat; color: #186F65; text-decoration: underline;">COMMUNICATIONS ACTIVITY</h2>
+            </div>
+            <div class="row justify-content-center" style="height: 50px;">
+                <svg id="lollipop_color_legend"></svg>
+            </div>
+            <div class="container lollipopChartContainer">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="shadow p-3 mb-5 bg-white rounded">
+                            <svg id="template_lollipop_svg"></svg>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="shadow p-3 mb-5 bg-white rounded">
+                            <svg id="subgraph_lollipop_svg"></svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</body>
+
+</html>

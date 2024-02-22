@@ -1,0 +1,16 @@
+#template_lollipop_svg {
+    width: 100%;
+    height: 500px;
+    background-color: white;
+}
+
+#subgraph_lollipop_svg {
+    width: 100%;
+    height: 500px;
+    background-color: white;
+}
+
+.barSubgraphSelect {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

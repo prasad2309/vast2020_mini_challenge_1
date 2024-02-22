@@ -1,0 +1,13 @@
+.vscomp-ele{
+    max-width: 800px;
+}
+
+.vscomp-toggle-button{
+    background-color: #3b71ca;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.vscomp-value{
+    color: white;
+}

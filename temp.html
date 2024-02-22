@@ -1,0 +1,107 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="294" cy="277" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+    <circle cx="259" cy="200" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+    <circle cx="253" cy="108" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+    <circle cx="70" cy="315" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+    <circle cx="101" cy="102" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+    <circle cx="130" cy="318" r="20" stroke="black" stroke_width="2" fill="lightblue" />
+    <circle cx="61" cy="247" r="20" stroke="black" stroke_width="2" fill="lightblue" />
+    <circle cx="417" cy="184" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+    <circle cx="442" cy="445" r="20" stroke="black" stroke_width="2" fill="lightblue" />
+    <circle cx="330" cy="201" r="20" stroke="black" stroke_width="2" fill="red" class="similar" />
+</svg>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+            // Helper function to get all points on the circle's perimeter
+            function getCirclePoints(circle, numPoints = 8) {
+                const points = [];
+                const cx = parseFloat(circle.getAttribute('cx'));
+                const cy = parseFloat(circle.getAttribute('cy'));
+                const r = parseFloat(circle.getAttribute('r'));
+                for (let i = 0; i < numPoints; i++) {
+                    const angle = (2 * Math.PI / numPoints) * i;
+                    points.push({
+                        x: cx + r * Math.cos(angle),
+                        y: cy + r * Math.sin(angle)
+                    });
+                }
+                return points;
+            }
+
+            // Convex hull algorithm - Graham scan
+            function convexHull(points) {
+                // Find the point with the lowest y-coordinate, break ties by x-coordinate
+                points.sort((a, b) => a.y - b.y || a.x - b.x);
+                const start = points[0];
+
+                // Sort points by polar angle with the start point
+                points.sort((a, b) => {
+                    const polarA = Math.atan2(a.y - start.y, a.x - start.x);
+                    const polarB = Math.atan2(b.y - start.y, b.x - start.x);
+                    return polarA - polarB;
+                });
+
+                const stack = [start, points[1], points[2]];
+                for (let i = 3; i < points.length; i++) {
+                    let top = stack[stack.length - 1];
+                    let nextToTop = stack[stack.length - 2];
+                    let ccw = (top.x - nextToTop.x) * (points[i].y - nextToTop.y) - (top.y - nextToTop.y) * (points[i].x - nextToTop.x);
+                    while (ccw <= 0) {
+                        stack.pop();
+                        top = stack[stack.length - 1];
+                        nextToTop = stack[stack.length - 2];
+                        ccw = (top.x - nextToTop.x) * (points[i].y - nextToTop.y) - (top.y - nextToTop.y) * (points[i].x - nextToTop.x);
+                    }
+                    stack.push(points[i]);
+                }
+                return stack;
+            }
+
+            // Function to draw a smooth dotted line around the convex hull
+            function drawSmoothLine(points) {
+                // Create the SVG path element
+                const svgNS = "http://www.w3.org/2000/svg";
+                const pathElement = document.createElementNS(svgNS, 'path');
+                let pathD = `M ${points[0].x},${points[0].y} `;
+
+                for (let i = 1; i <= points.length; i++) {
+                    const start = points[i - 1];
+                    const end = points[i % points.length];
+                    const midPoint = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 };
+                    // Simple control points can be the midpoints for a smoother curve
+                    pathD += `Q ${start.x},${start.y} ${midPoint.x},${midPoint.y} `;
+                }
+                pathD += 'Z'; // Close the path
+
+                pathElement.setAttribute('d', pathD);
+                pathElement.setAttribute('stroke', 'black');
+                pathElement.setAttribute('stroke-dasharray', '5,5');
+                pathElement.setAttribute('fill', 'none');
+
+                // Append the path to the SVG
+                document.querySelector('svg').appendChild(pathElement);
+            }
+
+            // Main function to find the convex hull and draw the dotted line
+            function highlightSimilarCircles() {
+                const similarCircles = document.querySelectorAll('circle.similar');
+                let allPoints = [];
+
+                // Collect points from all "similar" circles
+                similarCircles.forEach(circle => {
+                    const points = getCirclePoints(circle);
+                    allPoints = allPoints.concat(points);
+                });
+
+                // Calculate the convex hull
+                const hullPoints = convexHull(allPoints);
+
+                // Draw the smooth line around the hull
+                drawSmoothLine(hullPoints);
+            }
+
+            highlightSimilarCircles();
+        });
+
+</script>

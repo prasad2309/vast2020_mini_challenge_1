@@ -1,0 +1,17 @@
+#template_heat_map_svg{
+  width: 100%;
+  height: 620px;
+  background-color: white;
+
+}
+
+#subgraph_heat_map_svg{
+  width: 100%;
+  height: 620px;
+  background-color: white;
+}
+
+.heatMapSelect {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

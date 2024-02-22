@@ -1,0 +1,17 @@
+#template_scatter_travel_svg{
+    width: 100%;
+    height: 920px;
+    background-color: white;
+}
+
+#subgraph_scatter_travel_svg{
+    width: 100%;
+    height: 920px;
+    background-color: white;
+}
+
+
+.scatterTravelSubgraphSelect{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
