@@ -43,9 +43,9 @@ The objective of this challenge is to leverage visual analytics to determine a s
 4. `assest` dir will hold images, fonts etc..
 
 ## Authors
-1. Darshan Vipresh - dsheth10@asu.edu
+1. Prasad Mahalpure - pmahalpu@asu.edu
 2. Deep Rodge - drodge@asu.edu
 3. Jayati Goyal - jgoyal2@asu.edu
-4. Prasad Mahalpure - pmahalpu@asu.edu
+4. Darshan Vipresh - dsheth10@asu.edu
 5. Kaushal Yadav - kryadav@asu.edu
 6. Sravya Thummeti - sthummet@asu.edu
